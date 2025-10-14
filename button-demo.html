@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Chat Smart Contract - Button Demo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .call-button {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+        
+        .call-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .call-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+        
+        .status.loading {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .status.success {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .status.error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .pda-list {
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .pda-item {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ Voice Chat Smart Contract Demo</h1>
+        
+        <div class="info-box">
+            <h3>📋 What this button does:</h3>
+            <ul>
+                <li>✅ Calls the Solana smart contract</li>
+                <li>📦 Creates 10 Program Derived Addresses (PDAs)</li>
+                <li>💾 Each PDA has 30KB of storage space</li>
+                <li>📝 Adds sample voice chat data to the first PDA</li>
+                <li>🔍 Verifies all accounts were created successfully</li>
+            </ul>
+            
+            <p><strong>Note:</strong> This is a demo interface. In a real application, you would integrate this with a proper Solana wallet and web3 connection.</p>
+        </div>
+        
+        <button id="callButton" class="call-button" onclick="handleButtonClick()">
+            🚀 Call Smart Contract
+        </button>
+        
+        <div id="status" class="status" style="display: none;">
+            <div id="statusContent"></div>
+        </div>
+    </div>
+
+    <script>
+        async function handleButtonClick() {
+            const button = document.getElementById('callButton');
+            const status = document.getElementById('status');
+            const statusContent = document.getElementById('statusContent');
+            
+            // Disable button and show loading
+            button.disabled = true;
+            button.textContent = '⏳ Calling Smart Contract...';
+            status.style.display = 'block';
+            status.className = 'status loading';
+            statusContent.innerHTML = `
+                <h3>🔄 Processing...</h3>
+                <p>Connecting to Solana devnet and calling smart contract...</p>
+                <p>This will create 10 PDAs with 30KB each. Please wait...</p>
+            `;
+            
+            try {
+                // Simulate the smart contract call
+                // In a real implementation, you would call the actual function here
+                const result = await simulateSmartContractCall();
+                
+                if (result.success) {
+                    status.className = 'status success';
+                    statusContent.innerHTML = `
+                        <h3>✅ Success!</h3>
+                        <p><strong>Message:</strong> ${result.message}</p>
+                        <p><strong>PDAs Created/Found:</strong> ${result.pdaCount}</p>
+                        <p><strong>Total Storage Allocated:</strong> ${result.pdaCount * 30}KB</p>
+                        
+                        <div class="pda-list">
+                            <h4>📦 PDA Details:</h4>
+                            ${result.pdas.map(pda => `
+                                <div class="pda-item">
+                                    <strong>PDA ${pda.index}:</strong><br>
+                                    Address: ${pda.address}<br>
+                                    Transaction: ${pda.transaction}<br>
+                                    Data Length: ${pda.account.dataLength} bytes
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    throw new Error(result.message);
+                }
+                
+            } catch (error) {
+                status.className = 'status error';
+                statusContent.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p><strong>Error Message:</strong> ${error.message}</p>
+                    <p>This is a demo interface. In a real application, make sure:</p>
+                    <ul>
+                        <li>Your Solana wallet is connected</li>
+                        <li>You have sufficient SOL for transactions</li>
+                        <li>The smart contract is deployed to the network</li>
+                        <li>You're connected to the correct Solana cluster</li>
+                    </ul>
+                `;
+            } finally {
+                // Re-enable button
+                button.disabled = false;
+                button.textContent = '🚀 Call Smart Contract';
+            }
+        }
+        
+        // Simulate the smart contract call for demo purposes
+        async function simulateSmartContractCall() {
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            
+            // Simulate successful response
+            return {
+                success: true,
+                message: "Smart contract called successfully!",
+                pdaCount: 10,
+                pdas: Array.from({length: 10}, (_, i) => ({
+                    index: i,
+                    address: `PDA${i}Address...${Math.random().toString(36).substr(2, 8)}`,
+                    transaction: `tx_${Math.random().toString(36).substr(2, 12)}`,
+                    account: {
+                        dataLength: i === 0 ? 85 : 0 // First PDA has sample data
+                    }
+                }))
+            };
+        }
+        
+        // Instructions for real implementation
+        console.log(`
+🔧 INTEGRATION INSTRUCTIONS:
+
+To integrate with your actual smart contract, replace the simulateSmartContractCall() function with:
+
+async function callRealSmartContract() {
+    // Import your test file function
+    const { callSmartContract } = require('./tests/voicechat.ts');
+    
+    // Call the actual smart contract
+    return await callSmartContract();
+}
+
+Then change handleButtonClick() to call callRealSmartContract() instead.
+
+Make sure you have:
+1. ✅ Solana wallet connected (Phantom, Solflare, etc.)
+2. ✅ Sufficient SOL in your wallet for transactions
+3. ✅ Smart contract deployed to devnet/mainnet
+4. ✅ Proper web3 connection setup
+        `);
+    </script>
+</body>
+</html>

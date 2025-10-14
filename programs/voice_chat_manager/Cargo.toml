@@ -1,0 +1,20 @@
+[package]
+name = "voice_chat_manager"
+version = "0.1.0"
+description = "Voice Chat Manager - Handles voice data transmission"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "voice_chat_manager"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = "0.32.1"
