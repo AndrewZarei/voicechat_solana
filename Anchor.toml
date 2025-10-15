@@ -8,12 +8,12 @@ skip-lint = false
 [programs.localnet]
 voicechat = "HPxbCqRWpSxCEE2L6Vy1S1oMTc3D9aknrBGwZ9WTAvSK"
 storage_manager = "SU6CRGJXz5ksvXPyUuWXYfW2qmba6ZgHa3sxdr9aYMz"
-voice_chat_manager = "GVqX9pcoxbiY7i1W3Ad6Sinw1pNpwUHq1tu4tpkH6TF8"
+voice_chat_manager = "AGpoLxtMeNW17NZL7nWLFLmmhKPW5nbxfdY8BVaMxDNy"
 
 [programs.devnet]
 voicechat = "HPxbCqRWpSxCEE2L6Vy1S1oMTc3D9aknrBGwZ9WTAvSK"
 storage_manager = "SU6CRGJXz5ksvXPyUuWXYfW2qmba6ZgHa3sxdr9aYMz"
-voice_chat_manager = "GVqX9pcoxbiY7i1W3Ad6Sinw1pNpwUHq1tu4tpkH6TF8"
+voice_chat_manager = "AGpoLxtMeNW17NZL7nWLFLmmhKPW5nbxfdY8BVaMxDNy"
 
 [registry]
 url = "https://api.apr.dev"

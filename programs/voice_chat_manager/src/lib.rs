@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("GVqX9pcoxbiY7i1W3Ad6Sinw1pNpwUHq1tu4tpkH6TF8");
+declare_id!("AGpoLxtMeNW17NZL7nWLFLmmhKPW5nbxfdY8BVaMxDNy");
 
 const MAX_VOICE_DATA_SIZE: usize = 29 * 1024; // Leave 1KB for metadata
 const MAX_PARTICIPANTS: u8 = 10;
